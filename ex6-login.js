@@ -1,0 +1,51 @@
+// ข้อมูลที่ถูกต้องในระบบ
+const VALID_USER = "admin";
+const VALID_PASS = "ce385pass";
+
+// ส่วนที่ 1: ฟังก์ชัน login
+function login(inputUser, inputPass, role, isActive, age) {
+  // 1. ตรวจสอบ username หรือ password ด้วย || และ ===
+  if (inputUser !== VALID_USER || inputPass !== VALID_PASS) {
+    return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+  }
+
+  // 2. ตรวจสอบสถานะบัญชี
+  if (isActive === false) {
+    return "บัญชีนี้ถูกระงับการใช้งาน";
+  }
+
+  // 3. ตรวจสอบอายุ
+  if (age < 18) {
+    return "อายุน้อยไม่ถึงเกณฑ์";
+  }
+
+  // 4 & 5. ตรวจสอบสิทธิ์ (role)
+  if (role === "อาจารย์") {
+    return "เข้าสู่ระบบสำเร็จ (สิทธิ์ผู้ดูแล)";
+  } else if (role === "นักศึกษา") {
+    return "เข้าสู่ระบบสำเร็จ (สิทธิ์ทั่วไป)";
+  } else {
+    return "สิทธิ์การใช้งานไม่ถูกต้อง";
+  }
+}
+
+// ส่วนที่ 2: ทดสอบอย่างน้อย 6 กรณี
+console.log("===== ทดสอบระบบตรวจสอบสิทธิ์ =====");
+
+// กรณี 1: สำเร็จ (อาจารย์)
+console.log("กรณี 1 (อาจารย์):", login("admin", "ce385pass", "อาจารย์", true, 30));
+
+// กรณี 2: สำเร็จ (นักศึกษา)
+console.log("กรณี 2 (นักศึกษา):", login("admin", "ce385pass", "นักศึกษา", true, 20));
+
+// กรณี 3: รหัสผ่านผิด
+console.log("กรณี 3 (รหัสผ่านผิด):", login("admin", "wrongpass", "นักศึกษา", true, 20));
+
+// กรณี 4: ชื่อผู้ใช้ผิด
+console.log("กรณี 4 (ชื่อผู้ใช้ผิด):", login("user123", "ce385pass", "นักศึกษา", true, 20));
+
+// กรณี 5: บัญชีถูกระงับ
+console.log("กรณี 5 (บัญชีถูกระงับ):", login("admin", "ce385pass", "นักศึกษา", false, 20));
+
+// กรณี 6: อายุไม่ถึงเกณฑ์
+console.log("กรณี 6 (อายุไม่ถึง):", login("admin", "ce385pass", "นักศึกษา", true, 15));
