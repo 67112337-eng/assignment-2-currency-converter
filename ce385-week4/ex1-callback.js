@@ -54,3 +54,17 @@ fetchStudentById(42, (err, student) => {
   }
   console.log("กรณี ค [Success]:", student);
 });
+
+/* 
+ส่วนที่ 4 — ตอบคำถามท้ายไฟล์
+คำถาม ①: ถ้าลืมตรวจ error แล้วอ่าน .name ทันที จะเกิดอะไรขึ้น? ใครเห็น error นั้น?
+ ตอบ: 
+- ถ้าเกิด error ตัวแปร student จะเป็น undefined การพยายามอ่าน undefined.name 
+จะทำให้โปรแกรมโยน TypeError: Cannot read properties of undefined (reading 'name')
+- ผลคือ โปรแกรมจะ Crash (พังลงทันที) และคนเห็น error คือ Node.js runtime / ผู้ใช้งานที่รันสคริปต์นี้
+
+คำถาม ②: ทำไมต้อง return หลังเรียก callback(error)?
+ ตอบ:
+- เพราะการเรียก callback(error) เป็นเพียงการส่ง error ไปให้ฟังก์ชันอื่นทำงานต่อ ไม่ได้หยุดการทำงานของฟังก์ชันปัจจุบัน
+- หากไม่มี return โค้ดบรรทัดถัดไปในฟังก์ชันก็จะยังคงทำงานต่อ ซึ่งอาจทำให้เกิดการเรียก callback ซ้ำซ้อน หรือทำงานผิดพลาดได้
+*/
